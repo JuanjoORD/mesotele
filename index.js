@@ -7,13 +7,13 @@ app.use(express.json());
 
 const connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'mesosat',
-  password : 'ACITRoom',
+  user     : 'meso',
+  password : 'mesoxela',
   database : 'satmeso'
 });
 
 //Rutas
-app.get('/', (res, req) => {
+app.get('/', (req, res) => {
     res.send('Bienvenido a la API')
 })
 
