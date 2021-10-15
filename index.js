@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 
 //Rutas
 app.get('/', (req, res) => {
-    res.send('Bienvenido a la API')
+    res.send('Bienvenido a la API SAT')
 })
 
 app.get('/leer', (req, res) => {
@@ -35,7 +35,8 @@ app.post('/guardar', (req, res) => {
   
     const lectura = {
       valor: req.body.valor,
-      fecha: new Date()
+      fecha: req.body.fecha,
+      hora: req.body.hora
     };
   
     connection.query(sql, lectura, error => {
@@ -43,6 +44,33 @@ app.post('/guardar', (req, res) => {
       res.send('Lectura guardada!');
     });
 });
+
+app.post('/obtener', (req, res) => {
+  const sql = 'SELECT * FROM lectura WHERE fecha=?';
+
+  const lectura = {    
+    fecha: req.body.fecha,    
+  };
+
+  connection.query(sql, lectura, error => {
+    if (error) throw error;
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.send('Sin resultados');
+    }
+  });
+});
+
+app.get('/ver/:fecha', (request, res) => {
+  let select = 'SELECT * FROM lectura WHERE fecha = ?'
+  connection.query(select, request.params.fecha, (error, result) => {
+      if(error){
+          console.log(error)
+      }
+      res.send(result)
+  })
+})
 
 
 //Conexion
