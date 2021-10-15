@@ -41,16 +41,14 @@ app.post('/guardar', (req, res) => {
   
     connection.query(sql, lectura, error => {
       if (error) throw error;
-      res.send('Lectura guardada!');
+      res.send('Lectura guardada');
     });
 });
 
 app.post('/obtener', (req, res) => {
   const sql = 'SELECT * FROM lectura WHERE fecha=?';
 
-  const lectura = {    
-    fecha: req.body.fecha,    
-  };
+  const lectura = req.body.fecha;
 
   connection.query(sql, lectura, error => {
     if (error) throw error;
@@ -65,10 +63,11 @@ app.post('/obtener', (req, res) => {
 app.get('/ver/:fecha', (request, res) => {
   let select = 'SELECT * FROM lectura WHERE fecha = ?'
   connection.query(select, request.params.fecha, (error, result) => {
-      if(error){
-          console.log(error)
-      }
-      res.send(result)
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.send('Sin resultados');
+    }      
   })
 })
 
